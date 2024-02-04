@@ -1,0 +1,21 @@
+{% load menu_tags %}
+{% block content %}
+    <h1>My Page</h1>
+
+    <div>
+        <h2>Main Menu</h2>
+        {% if menus %}
+            {% for item in menu_items.children.all %}
+                <li {% if item.url == current_url or item in ancestors %}class="active"{% endif %}>
+                    <a href="{% if item.named_url %}{% url item.named_url %}{% else %}{{ item.url }}{% endif %}">{{ item.title }}</a>
+                    {% if item.children.all %}
+                        {% draw_menu item.title %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>No items in the menu.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
